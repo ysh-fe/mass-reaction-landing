@@ -20,7 +20,7 @@ Every push to `main` runs `.github/workflows/deploy.yml`. First it checks the si
 
 ## Legal pages
 
-Privacy and Terms describe the game as its code stood on 9 November 2026: no analytics, no ads and no server of its own. Purchases go through Apple. The special-ball stash is stored in the player's iCloud key-value store with a random per-device identifier. Scores are submitted to Game Center. Best score, settings and seen tips stay on the device. If the game adds a new service (analytics, ads, a server, another kind of storage), update these pages before release, together with the App Store Connect privacy labels. The texts have not been reviewed by a lawyer.
+Privacy and Terms describe the game as its code stood on 9 November 2026: no ads and no server of its own. Analytics is being added to the game; before it ships, add a section to the Privacy Policy naming the provider, the data it collects and how to opt out, and update the App Store Connect privacy labels. Purchases go through Apple. The special-ball stash is stored in the player's iCloud key-value store with a random per-device identifier. Scores are submitted to Game Center. Best score, settings and seen tips stay on the device. If the game adds a new service (analytics, ads, a server, another kind of storage), update these pages before release, together with the App Store Connect privacy labels. The texts have not been reviewed by a lawyer.
 
 ## Contact
 
