@@ -4,7 +4,7 @@ The static website for Mass Reaction, an endless balance puzzle for iPhone: a ho
 
 ## Structure
 
-Everything that gets published lives in `dist/`: `index.html`, `privacy.html`, `terms.html`, `404.html`, `robots.txt`, `sitemap.xml` and `assets/`. The `assets/` folder holds the stylesheet `site.css`, the laboratory background `laboratory-v2.jpg` and the Barlow Condensed ExtraBold font with its OFL licence. It also holds images from the game: screenshots in `screens/`, special balls in `specials/`, the app icon (`app-icon.png`, `apple-touch-icon.png`) and the social share image `og-image.jpg`. Pages use relative links. Only `404.html` links from the site root, because the server returns it for any path. `art-source/` and `preview-*.png` are kept locally and are not part of the repository.
+Everything that gets published lives in `dist/`: `index.html`, `privacy.html`, `terms.html`, `404.html`, `robots.txt`, `sitemap.xml` and `assets/`. The site root also has `favicon.ico`. The `assets/` folder holds the stylesheet `site.css`, the laboratory background `laboratory-v2.webp` and the Barlow Condensed ExtraBold font with its OFL licence. It also holds images from the game: screenshots in `screens/`, special balls in `specials/`, the app icon (`app-icon.png`, `apple-touch-icon.png`) and the social share image `og-image.jpg`. Pages use relative links. Only `404.html` links from the site root, because the server returns it for any path. `art-source/` and `preview-*.png` are kept locally and are not part of the repository.
 
 ## Local preview
 
@@ -12,7 +12,7 @@ Everything that gets published lives in `dist/`: `index.html`, `privacy.html`, `
 
 ## Images from the game
 
-The screenshots were taken on the iPhone 17 Pro Max simulator with `tools/device-check/devicecheck.sh` from the game repository (label `after`). The special-ball and app icons come from the game's Alchemy skin resources. After the game changes, capture new shots, then run `python3 scripts/update_assets.py "<path to the game repository>" [label]`. The script rebuilds `screens/`, `specials/`, the icons and `og-image.jpg`. It needs Pillow: `pip3 install pillow`. The site mentions 20 kinds of special balls but deliberately does not say which ones are for sale, because the set on sale can change.
+The screenshots were taken on the iPhone 17 Pro Max simulator with `tools/device-check/devicecheck.sh` from the game repository (label `after`). The special-ball and app icons come from the game's Alchemy skin resources. After the game changes, capture new shots, then run `python3 scripts/update_assets.py "<path to the game repository>" [label]`. The script rebuilds `screens/` and `specials/` (WebP), the app icons and `og-image.jpg`. It needs Pillow: `pip3 install pillow`. The site mentions 20 kinds of special balls but deliberately does not say which ones are for sale, because the set on sale can change.
 
 ## Deployment
 

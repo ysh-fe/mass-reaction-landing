@@ -47,7 +47,7 @@ def screens(game: pathlib.Path, label: str) -> None:
         im = Image.open(game / "docs/device-check" / label / f"iphone-17-pro-max--{name}.png").convert("RGB")
         w = 720
         im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
-            out / f"{name}.jpg", quality=84, optimize=True, progressive=True)
+            out / f"{name}.webp", "WEBP", quality=80, method=6)
 
 
 def specials(game: pathlib.Path) -> None:
@@ -60,7 +60,7 @@ def specials(game: pathlib.Path) -> None:
         side = max(im.size)
         square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
         square.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
-        square.resize((112, 112), Image.LANCZOS).save(out / f"{name}.png", optimize=True)
+        square.resize((112, 112), Image.LANCZOS).save(out / f"{name}.webp", "WEBP", quality=85, method=6)
 
 
 def icons(game: pathlib.Path) -> None:
@@ -70,7 +70,7 @@ def icons(game: pathlib.Path) -> None:
 
 
 def share_image() -> None:
-    bg = Image.open(ASSETS / "laboratory-v2.jpg").convert("RGB")
+    bg = Image.open(ASSETS / "laboratory-v2.webp").convert("RGB")
     bg = bg.resize((1200, round(bg.height * 1200 / bg.width)), Image.LANCZOS)
     top = max(0, (bg.height - 630) // 2)
     bg = ImageEnhance.Brightness(bg.crop((0, top, 1200, top + 630))).enhance(0.55)
@@ -80,7 +80,7 @@ def share_image() -> None:
         draw.line([(x, 0), (x, 630)], fill=(9, 11, 9, int(200 * max(0, 1 - x / 700))))
     og = Image.alpha_composite(bg.convert("RGBA"), shade)
 
-    shot = Image.open(ASSETS / "screens/game.jpg").convert("RGB")
+    shot = Image.open(ASSETS / "screens/game.webp").convert("RGB")
     ph = 560
     pw = round(shot.width * ph / shot.height)
     shot = shot.resize((pw, ph), Image.LANCZOS)

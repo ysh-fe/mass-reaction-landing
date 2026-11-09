@@ -4,7 +4,7 @@ A mysterious abandoned laboratory: dark metal, aged brass, pipes, amber lamps, g
 
 ## Assets
 
-`dist/assets/laboratory-v2.jpg` is a background generated with the built-in ImageGen from a style reference; it is not a game screenshot. The screenshots in `dist/assets/screens/` are real frames of the game in the Alchemy skin on iPhone 17 Pro Max. The special balls in `dist/assets/specials/` and the app icon come from the game's resources; see the README for how to rebuild them. `grain.svg` is a light procedural texture, and `favicon.svg` is the scales mark in the site palette. Screenshots sit in a CSS phone frame (`.phone`) in the same tones as the brass frames.
+`dist/assets/laboratory-v2.webp` is a background generated with the built-in ImageGen from a style reference; it is not a game screenshot. The screenshots in `dist/assets/screens/` are real frames of the game in the Alchemy skin on iPhone 17 Pro Max. The special balls in `dist/assets/specials/` and the app icon come from the game's resources; see the README for how to rebuild them. `grain.svg` is a light procedural texture, and `favicon.svg` is the scales mark in the site palette. Screenshots sit in a CSS phone frame (`.phone`) in the same tones as the brass frames.
 
 The early apparatus concept art and the PNG original of the background are kept locally in `art-source/` and are no longer used on the site.
 
