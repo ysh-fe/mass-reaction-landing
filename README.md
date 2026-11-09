@@ -29,3 +29,5 @@ The support address is never written in plain text, so scrapers cannot pick it u
 ## Cookie banner and analytics
 
 `assets/consent.js` shows a banner on the first visit with two equal buttons, Decline and Accept, and keeps the answer in `localStorage` under `mr-consent`. Nothing is requested from Google before Accept. After Accept it loads Google Analytics 4 (measurement ID `G-BN36B66LGS`, Analytics account "Mass Reaction") with Google signals and ad personalisation off. Every footer has a "Cookie settings" button (`data-cookie-settings`) that reopens the banner; choosing Decline after Accept deletes the `_ga` cookies and reloads the page. The Privacy Policy section `#analytics` describes this setup, so update it together with any change to the script, the measurement ID or the Analytics data settings (retention: event data two months, user data 14 months).
+
+Cloudflare caches CSS and JavaScript at the edge for four hours. The pages link `assets/site.css` and `assets/consent.js` with a version query (`?v=…`); bump it in all four pages whenever either file changes, or visitors keep getting the old file.
