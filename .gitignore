@@ -1,4 +1,5 @@
-# Local page previews (not published)
+# Local sources and page previews (not published)
+/art-source/
 /preview-*.png
 
 # macOS / editors

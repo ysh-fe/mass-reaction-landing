@@ -4,7 +4,7 @@ The static website for Mass Reaction, an endless balance puzzle for iPhone: a ho
 
 ## Structure
 
-Everything that gets published lives in `dist/`: `index.html`, `privacy.html`, `terms.html`, `404.html`, `robots.txt`, `sitemap.xml` and `assets/`. The site root also has `favicon.ico`. The `assets/` folder holds the stylesheet `site.css`, the laboratory background `laboratory-v2.webp` and the Barlow Condensed ExtraBold font with its OFL licence. It also holds images from the game: screenshots in `screens/`, special balls in `specials/`, the app icon (`app-icon.png`, `apple-touch-icon.png`) and the social share image `og-image.jpg`. Pages use relative links. Only `404.html` links from the site root, because the server returns it for any path. `preview-*.png` are local page previews and are not part of the repository.
+Everything that gets published lives in `dist/`: `index.html`, `privacy.html`, `terms.html`, `404.html`, `robots.txt`, `sitemap.xml` and `assets/`. The site root also has `favicon.ico`. The `assets/` folder holds the stylesheet `site.css`, the laboratory background `laboratory-v2.webp` and the Barlow Condensed ExtraBold font with its OFL licence. It also holds images from the game: screenshots in `screens/`, special balls in `specials/`, the app icon (`app-icon.png`, `apple-touch-icon.png`) and the social share image `og-image.jpg`. Pages use relative links. Only `404.html` links from the site root, because the server returns it for any path. `art-source/` (the full-size PNG original of the background) and `preview-*.png` (page previews) are kept locally and are not part of the repository.
 
 ## Local preview
 
