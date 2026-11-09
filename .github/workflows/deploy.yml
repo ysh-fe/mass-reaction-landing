@@ -1,0 +1,107 @@
+name: Deploy Mass Reaction landing
+
+# Publishes the static site (`dist/`) straight to the shared CDN host, the same way as
+# the LuxSort landing:
+#   - secret  CDN_SSH_KEY        (deploy user's private SSH key)
+#   - var     CDN_SSH_HOST       (the CDN host's address)
+#   - var     CDN_SSH_USER       (deploy)
+#   - var     CD_DEPLOY_ENABLED  ("true" to actually deploy)
+#
+# The files land in /var/www/massreaction.app, which nginx serves as static
+# (`root /var/www/massreaction.app; try_files $uri $uri/ =404; error_page 404 /404.html`).
+# No build step, no Node server, no service to restart. The directory and the nginx
+# vhost/TLS are provisioned once on the host, like the LuxSort vhost.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # Never cancel an in-flight deploy; queue the next one behind it.
+  group: deploy-massreaction
+  cancel-in-progress: false
+
+jobs:
+  check-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check the site
+        run: |
+          set -euo pipefail
+          for f in index.html privacy.html terms.html 404.html robots.txt sitemap.xml assets/site.css; do
+            test -s "dist/$f" || { echo "Missing dist/$f"; exit 1; }
+          done
+          # Every local src/href in the pages must point to an existing file.
+          python3 - <<'EOF'
+          import pathlib, re, sys
+          root = pathlib.Path("dist")
+          bad = []
+          for page in root.glob("*.html"):
+              for ref in re.findall(r'(?:src|href)="([^"#?]+)', page.read_text()):
+                  if re.match(r"^(https?:|mailto:)", ref):
+                      continue
+                  target = root / ref.lstrip("/")
+                  if not target.exists():
+                      bad.append(f"{page.name}: {ref}")
+          if bad:
+              print("Broken local links:", *bad, sep="\n  ")
+              sys.exit(1)
+          EOF
+          # No email address may appear in plain text anywhere in the repository: the
+          # support address is built by dist/assets/contact.js from character codes.
+          if grep -rIoE --exclude-dir=.git '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' . | grep -q .; then
+            echo "Plain email address found:"
+            grep -rIoE --exclude-dir=.git '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' .
+            exit 1
+          fi
+
+      # Gate: stays dormant until CD_DEPLOY_ENABLED=true. The check above still runs
+      # on every push. Transport mirrors the LuxSort landing: the appleboy SSH actions.
+
+      - name: Upload site to host (staging)
+        if: vars.CD_DEPLOY_ENABLED == 'true'
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ vars.CDN_SSH_HOST }}
+          username: ${{ vars.CDN_SSH_USER }}
+          key: ${{ secrets.CDN_SSH_KEY }}
+          source: dist
+          target: /tmp/massreaction-${{ github.sha }}
+          rm: true
+
+      - name: Publish to /var/www/massreaction.app
+        if: vars.CD_DEPLOY_ENABLED == 'true'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.CDN_SSH_HOST }}
+          username: ${{ vars.CDN_SSH_USER }}
+          key: ${{ secrets.CDN_SSH_KEY }}
+          # NB: do NOT set script_stop here. It aborts on the first non-zero line and
+          # swallows all output; our own `set -eu` fails the step on real errors.
+          # /var/www/massreaction.app is owned by `deploy`, so no sudo.
+          script: |
+            set -eu
+            # scp-action keeps the source path, so the site lands under `dist`.
+            STAGED="/tmp/massreaction-${{ github.sha }}/dist"
+            TARGET="/var/www/massreaction.app"
+            echo "Checking staged site and target directory"
+            test -s "$STAGED/index.html"
+            test -d "$TARGET"
+            echo "Publishing"
+            # --exclude=.well-known/ keeps Certbot's ACME challenge dir from being
+            # wiped by --delete. --chmod normalises perms: dirs 0755, files 0644.
+            rsync -a --delete --exclude=.well-known/ --chmod=D755,F644 \
+              "$STAGED/" "$TARGET/"
+            echo "Verifying deployment"
+            test -r "$TARGET/index.html"
+            curl --fail --silent --show-error \
+              --resolve massreaction.app:80:127.0.0.1 \
+              http://massreaction.app/ -o /dev/null
+            echo "Cleaning staging directory"
+            rm -rf "/tmp/massreaction-${{ github.sha }}"

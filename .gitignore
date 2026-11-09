@@ -1,0 +1,15 @@
+# Local design sources and previews (large, not published)
+/art-source/
+/preview-*.png
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+
+# secrets
+*.pem
+.env*
