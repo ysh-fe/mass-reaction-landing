@@ -1,6 +1,6 @@
 # Mass Reaction — landing page
 
-The static website for Mass Reaction, an endless balance puzzle for iPhone: a home page, Privacy Policy, Terms & Conditions and a 404 page, published at https://massreaction.app. There is no build step and no dependencies. The site uses no cookies, analytics or browser storage, and it makes no external requests: the font and images are served with the pages. The only JavaScript is `assets/contact.js`, which builds the support address for the contact buttons.
+The static website for Mass Reaction, an endless balance puzzle for iPhone: a home page, Privacy Policy, Terms & Conditions and a 404 page, published at https://massreaction.app. There is no build step and no dependencies. The font and images are served with the pages. There are two scripts: `assets/contact.js` builds the support address for the contact buttons, and `assets/consent.js` shows the cookie banner and loads Google Analytics only after the visitor accepts.
 
 ## Structure
 
@@ -25,3 +25,7 @@ Privacy and Terms describe the game as its code stood on 9 November 2026: no ads
 ## Contact
 
 The support address is never written in plain text, so scrapers cannot pick it up from the pages or from this repository. Contact links are buttons with `data-contact` (and an optional `data-subject`); on click, `assets/contact.js` rebuilds the address from character codes and opens a `mailto:` link, the same approach as the LuxSort landing. Mail is forwarded by Cloudflare Email Routing. To change the address, update `ADDRESS_CODES` in `contact.js`. Public files and commits must not contain personal email addresses or other private data; the workflow fails on any plain email address.
+
+## Cookie banner and analytics
+
+`assets/consent.js` shows a banner on the first visit with two equal buttons, Decline and Accept, and keeps the answer in `localStorage` under `mr-consent`. Nothing is requested from Google before Accept. After Accept it loads Google Analytics 4 (measurement ID `G-BN36B66LGS`, Analytics account "Mass Reaction") with Google signals and ad personalisation off. Every footer has a "Cookie settings" button (`data-cookie-settings`) that reopens the banner; choosing Decline after Accept deletes the `_ga` cookies and reloads the page. The Privacy Policy section `#analytics` describes this setup, so update it together with any change to the script, the measurement ID or the Analytics data settings (retention: event data two months, user data 14 months).
