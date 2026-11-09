@@ -90,3 +90,15 @@
 @media(max-width:760px){.consent{left:16px;right:16px;bottom:16px;width:auto;padding:18px 18px 20px}}
 @media print{.consent{display:none}}
 .legal-document code{font-family:var(--mono);font-size:.9em;color:#d0bf98}
+/* Legal pages: numbered headings matching the contents list, lists and tables. */
+.legal-document{counter-reset:legal}
+.legal-document h2{counter-increment:legal}
+.legal-document h2:before{content:counter(legal) ". ";color:#8e764d}
+.legal-document ul{color:#a8ad99;margin:0 0 15px;padding-left:20px}
+.legal-document li{margin-bottom:8px}
+.legal-document li::marker{color:#8e764d}
+.legal-document strong{color:#c9c2aa;font-weight:600}
+.legal-table{overflow-x:auto;margin:0 0 15px}
+.legal-table table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.6;min-width:520px}
+.legal-table th{font:10px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#ad9367;text-align:left;font-weight:400;padding:0 14px 10px 0;border-bottom:1px solid #74644466}
+.legal-table td{color:#a8ad99;vertical-align:top;padding:10px 14px 10px 0;border-bottom:1px solid #574e343f}
