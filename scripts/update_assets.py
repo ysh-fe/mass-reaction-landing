@@ -17,14 +17,26 @@ ASSETS = SITE / "dist" / "assets"
 
 SCREENS = ["game", "filled", "offer", "gameover"]
 SPECIALS = {
-    "StashBomb": "bomb",
-    "StashJoker": "joker",
     "SilverStar": "silver-star",
-    "StashCutter": "cutter",
+    "GoldStar": "gold-star",
     "CopperHeart": "heart",
+    "StashJoker": "joker",
+    "MysteryQuestion": "mystery",
+    "StashBomb": "bomb",
+    "StashCutter": "cutter",
     "ColourZap": "colour-zap",
+    "Tint": "tint",
+    "Flash": "flash",
+    "ColourJoker": "colour-joker",
     "DiagonalZap": "diagonal-zap",
+    "TopZap": "top-zap",
+    "BottomTint": "bottom-tint",
+    "DiagonalFlash": "diagonal-flash",
+    "ColourBomb": "colour-bomb",
+    "HorizontalZap": "horizontal-zap",
+    "MulticolourZap": "multicolour-zap",
     "Tint3x3": "tint-3x3",
+    "TriangleFlash": "triangle-flash",
 }
 
 
@@ -48,7 +60,7 @@ def specials(game: pathlib.Path) -> None:
         side = max(im.size)
         square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
         square.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
-        square.resize((176, 176), Image.LANCZOS).save(out / f"{name}.png", optimize=True)
+        square.resize((112, 112), Image.LANCZOS).save(out / f"{name}.png", optimize=True)
 
 
 def icons(game: pathlib.Path) -> None:
